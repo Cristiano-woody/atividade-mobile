@@ -8,6 +8,7 @@ interface pokeResponse {
   name: string
   sprites: Sprites
   weight: number
+  abilities: [any]
 }
 interface Sprites {
   back_default: string

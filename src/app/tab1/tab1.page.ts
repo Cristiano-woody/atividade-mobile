@@ -47,7 +47,7 @@ export class Tab1Page {
       this.pokeInfo.image = res.sprites.front_default
       this.pokeInfo.weight = res.weight
       this.pokeInfo.height = res.height
-      this.pokeInfo.Abilities = 3
+      this.pokeInfo.Abilities = res.abilities.length
     },
     err => {
       console.log(err)
