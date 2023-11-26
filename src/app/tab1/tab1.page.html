@@ -43,7 +43,7 @@
       </ion-card-title>
       <ion-img
         alt="" 
-        [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/' + pokeInfo.id + '.png'"
+        [src]="pokeInfo.image"
         style="width: 250px; height: 250px"
       >
       ></ion-img>
@@ -51,7 +51,7 @@
     <ion-card-content>
       <ion-list>
         <ion-item>
-          <ion-label>Abilities: {{this.pokeInfo.Abilities}}</ion-label>
+          <ion-label>Abilities: {{this.pokeInfo.abilities}}</ion-label>
         </ion-item>
         <ion-item>
           <ion-label>Heigth: {{this.pokeInfo.height}}</ion-label>

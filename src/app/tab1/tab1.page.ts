@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PokeApiService } from '../services/poke-api.service';
 import { ViaCepService } from '../services/via-cep.service';
+import { store } from '../store/store';
 
 @Component({
   selector: 'app-tab1',
@@ -14,7 +15,7 @@ export class Tab1Page {
     image: '',
     weight: 0,
     height: 0,
-    Abilities: 0
+    abilities: 0
   }
   areaBuscarPokemon = ''
   areaBusca = {
@@ -47,7 +48,18 @@ export class Tab1Page {
       this.pokeInfo.image = res.sprites.front_default
       this.pokeInfo.weight = res.weight
       this.pokeInfo.height = res.height
-      this.pokeInfo.Abilities = res.abilities.length
+      this.pokeInfo.abilities = res.abilities.length
+      store.pokemons.push({
+        name: res.name,
+        id: res.id,
+        image: res.sprites.front_default,
+        weight: res.weight,
+        height: res.height,
+        abilities: res.abilities.length,
+        vitorias: 0,
+        derrotas: 0,
+        empates: 0,
+      })
     },
     err => {
       console.log(err)

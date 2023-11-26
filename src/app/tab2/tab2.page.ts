@@ -1,6 +1,16 @@
 import { Component } from '@angular/core';
 import { PhotoService } from '../services/photo.service';
 import { PokeApiService } from '../services/poke-api.service';
+import { pokemon, store } from '../store/store';
+
+interface IPokeInfo {
+  name: string
+  id: number
+  image: string
+  weight: number
+  height: number
+  abilities: number
+}
 
 @Component({
   selector: 'app-tab2',
@@ -8,15 +18,16 @@ import { PokeApiService } from '../services/poke-api.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-
-  pokeInfo = {
+  pokeInfo: IPokeInfo = {
     name: '???????',
     id: 0,
     image: '',
     weight: 0,
     height: 0,
-    Abilities: 0
+    abilities: 0
   }
+
+  batleResult?: string
 
   constructor(private photoService: PhotoService, private pokeService: PokeApiService) {
     this.buscarPokemon()
@@ -29,16 +40,37 @@ export class Tab2Page {
   buscarPokemon() {
     this.pokeService.getPokemon().subscribe(
     res => {
-      this.pokeInfo.name = res.name.toUpperCase()
-      this.pokeInfo.id = res.id
-      this.pokeInfo.image = res.sprites.front_default
-      this.pokeInfo.weight = res.weight
-      this.pokeInfo.height = res.height
-      this.pokeInfo.Abilities = res.abilities.length
-      console.log(res)
+      let resPokemon = {
+        name: res.name.toUpperCase(),
+        id: res.id,
+        image: res.sprites.front_default,
+        weight: res.weight,
+        height: res.height,
+        abilities: res.abilities.length,
+      }
+      this.pokeInfo = resPokemon
+      this.batalhar(resPokemon)
     },
     err => {
       console.log(err)
     })
+  }
+
+  batalhar(newPokemon: IPokeInfo) {
+    if(store.pokemons.length > 0) {
+      let pokemonBatalha: pokemon = store.pokemons[(store.pokemons.length - 1) ]
+      if(pokemonBatalha.abilities > newPokemon.abilities) {
+        this.batleResult = "PERDEU"
+        store.pokemons[(store.pokemons.length - 1)].vitorias += 1 
+      }
+      if(pokemonBatalha.abilities < newPokemon.abilities) {
+        this.batleResult = "GANHOU"
+        store.pokemons[(store.pokemons.length - 1)].derrotas += 1 
+      }
+      if(pokemonBatalha.abilities == newPokemon.abilities) {
+        this.batleResult = "EMPATOU"
+        store.pokemons[(store.pokemons.length - 1)].empates += 1 
+      }
+    }
   }
 }
